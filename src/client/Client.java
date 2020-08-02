@@ -12,12 +12,22 @@ public class Client {
     DataLine.Info info;
     SourceDataLine speakers;
 
+    final String SERVER_IP = "YOUR_IP";
+    final int SERVER_PORT = 10001;
+    final Boolean MICROPHONE_MODE = false;     // 마이크 모드인지, 파일 모드인지 설정
+
     public void start() {
         try {
-            format = new AudioFormat(192000.0f, 16, 2, true, false);
+            if(MICROPHONE_MODE){
+                format = new AudioFormat(192000.0f, 16, 2, true, false);
+            }
+            else{
+                format = new AudioFormat(44100.0f, 16, 2, true, false);
+            }
+
             info = new DataLine.Info(SourceDataLine.class, format);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            socket = new Socket("192.168.0.5", 10001);
+            socket = new Socket(SERVER_IP, SERVER_PORT);
             dis = new DataInputStream(socket.getInputStream());
 
             int dsize = 0;
